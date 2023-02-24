@@ -22,14 +22,12 @@ public class AsyncClassTest {
     @Autowired
     private ExternalAsyncClass externalAsyncClass;
 
+    @Async("applicationTaskExecutor")
     public void runAsyncTask() {
-        System.out.println("create async task: " + Thread.currentThread().getName());
-        executor.submit(() -> {
-            var currentThread = Thread.currentThread();
-            System.out.println("runAsyncTask: " + currentThread.getName() + " id: " + currentThread.getId());
-            externalAsyncClass.externalTask();
-            internalTask();
-        });
+        var currentThread = Thread.currentThread();
+        System.out.println("runAsyncTask: " + currentThread.getName() + " id: " + currentThread.getId());
+        externalAsyncClass.externalTask();
+        internalTask();
     }
 
     @Async
