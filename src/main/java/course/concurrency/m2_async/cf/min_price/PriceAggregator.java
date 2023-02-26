@@ -31,13 +31,11 @@ public class PriceAggregator {
                         .exceptionally(e -> null))
                 .toArray(CompletableFuture[]::new);
         return CompletableFuture.allOf(completableFutures)
-                .thenCompose(voidIgnored -> {
-                    Double minPrice = Arrays.stream(completableFutures)
-                            .map(CompletableFuture::join)
-                            .filter(Objects::nonNull)
-                            .min(Double::compareTo)
-                            .orElse(Double.NaN);
-                    return CompletableFuture.completedFuture(minPrice);
-                }).join();
+                .thenApply(voidIgnored -> Arrays.stream(completableFutures)
+                        .map(CompletableFuture::join)
+                        .filter(Objects::nonNull)
+                        .min(Double::compareTo)
+                        .orElse(Double.NaN))
+                .join();
     }
 }
