@@ -12,8 +12,9 @@ public class DeadlockExample {
         final Object first = new Object();
         final Object second = new Object();
         final Object third = new Object();
+        final Object fourth = new Object();
         Future<?> firstFuture = fixedThreadPool.submit(() -> deadlockExample.task(first, second, third));
-        Future<?> secondFuture = fixedThreadPool.submit(() -> deadlockExample.task(third, second, first));
+        Future<?> secondFuture = fixedThreadPool.submit(() -> deadlockExample.task(third, fourth, second));
         try {
             firstFuture.get();
             secondFuture.get();
