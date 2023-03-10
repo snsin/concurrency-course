@@ -1,0 +1,188 @@
+13836:
+2023-03-11 16:49:25
+Full thread dump Java HotSpot(TM) 64-Bit Server VM (17.0.1+12-LTS-39 mixed mode, sharing):
+
+Threads class SMR info:
+_java_thread_list=0x000001a2f8542bf0, length=15, elements={
+0x000001a2d76fe5c0, 0x000001a2f7829490, 0x000001a2f782c500, 0x000001a2f7843360,
+0x000001a2f7845c30, 0x000001a2f78464f0, 0x000001a2f7849560, 0x000001a2f784a200,
+0x000001a2f784d360, 0x000001a2f7856100, 0x000001a2f6a792c0, 0x000001a2f7ad86c0,
+0x000001a2f7b32cd0, 0x000001a2f7b39a00, 0x000001a2f8539900
+}
+
+"main" #1 prio=5 os_prio=0 cpu=15.62ms elapsed=173.09s tid=0x000001a2d76fe5c0 nid=0x285c waiting on condition  [0x00000080009ff000]
+   java.lang.Thread.State: WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@17.0.1/Native Method)
+	- parking to wait for  <0x0000000449d4d7b8> (a java.util.concurrent.FutureTask)
+	at java.util.concurrent.locks.LockSupport.park(java.base@17.0.1/LockSupport.java:211)
+	at java.util.concurrent.FutureTask.awaitDone(java.base@17.0.1/FutureTask.java:447)
+	at java.util.concurrent.FutureTask.get(java.base@17.0.1/FutureTask.java:190)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.main(DeadlockImitationExample.java:20)
+
+"Reference Handler" #2 daemon prio=10 os_prio=2 cpu=0.00ms elapsed=173.08s tid=0x000001a2f7829490 nid=0x5414 waiting on condition  [0x00000080010ff000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@17.0.1/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@17.0.1/Reference.java:253)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@17.0.1/Reference.java:215)
+
+"Finalizer" #3 daemon prio=8 os_prio=1 cpu=0.00ms elapsed=173.08s tid=0x000001a2f782c500 nid=0x5d4c in Object.wait()  [0x00000080011ff000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.1/Native Method)
+	- waiting on <0x000000044980d5a8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.1/ReferenceQueue.java:155)
+	- locked <0x000000044980d5a8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.1/ReferenceQueue.java:176)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@17.0.1/Finalizer.java:172)
+
+"Signal Dispatcher" #4 daemon prio=9 os_prio=2 cpu=0.00ms elapsed=173.07s tid=0x000001a2f7843360 nid=0x16b0 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Attach Listener" #5 daemon prio=5 os_prio=2 cpu=15.62ms elapsed=173.07s tid=0x000001a2f7845c30 nid=0x578c waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #6 daemon prio=9 os_prio=0 cpu=0.00ms elapsed=173.07s tid=0x000001a2f78464f0 nid=0x376c runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #7 daemon prio=9 os_prio=0 cpu=0.00ms elapsed=173.07s tid=0x000001a2f7849560 nid=0x6fd4 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #8 daemon prio=9 os_prio=2 cpu=31.25ms elapsed=173.07s tid=0x000001a2f784a200 nid=0x4d84 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #16 daemon prio=9 os_prio=2 cpu=31.25ms elapsed=173.07s tid=0x000001a2f784d360 nid=0x68cc waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Sweeper thread" #20 daemon prio=9 os_prio=2 cpu=0.00ms elapsed=173.07s tid=0x000001a2f7856100 nid=0x263c runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #21 daemon prio=8 os_prio=1 cpu=0.00ms elapsed=173.05s tid=0x000001a2f6a792c0 nid=0x4904 in Object.wait()  [0x00000080019fe000]
+   java.lang.Thread.State: TIMED_WAITING (on object monitor)
+	at java.lang.Object.wait(java.base@17.0.1/Native Method)
+	- waiting on <0x000000044988cc18> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(java.base@17.0.1/ReferenceQueue.java:155)
+	- locked <0x000000044988cc18> (a java.lang.ref.ReferenceQueue$Lock)
+	at jdk.internal.ref.CleanerImpl.run(java.base@17.0.1/CleanerImpl.java:140)
+	at java.lang.Thread.run(java.base@17.0.1/Thread.java:833)
+	at jdk.internal.misc.InnocuousThread.run(java.base@17.0.1/InnocuousThread.java:162)
+
+"Monitor Ctrl-Break" #22 daemon prio=5 os_prio=0 cpu=0.00ms elapsed=173.01s tid=0x000001a2f7ad86c0 nid=0x4884 runnable  [0x0000008001efe000]
+   java.lang.Thread.State: RUNNABLE
+	at sun.nio.ch.SocketDispatcher.read0(java.base@17.0.1/Native Method)
+	at sun.nio.ch.SocketDispatcher.read(java.base@17.0.1/SocketDispatcher.java:46)
+	at sun.nio.ch.NioSocketImpl.tryRead(java.base@17.0.1/NioSocketImpl.java:261)
+	at sun.nio.ch.NioSocketImpl.implRead(java.base@17.0.1/NioSocketImpl.java:312)
+	at sun.nio.ch.NioSocketImpl.read(java.base@17.0.1/NioSocketImpl.java:350)
+	at sun.nio.ch.NioSocketImpl$1.read(java.base@17.0.1/NioSocketImpl.java:803)
+	at java.net.Socket$SocketInputStream.read(java.base@17.0.1/Socket.java:966)
+	at sun.nio.cs.StreamDecoder.readBytes(java.base@17.0.1/StreamDecoder.java:270)
+	at sun.nio.cs.StreamDecoder.implRead(java.base@17.0.1/StreamDecoder.java:313)
+	at sun.nio.cs.StreamDecoder.read(java.base@17.0.1/StreamDecoder.java:188)
+	- locked <0x0000000449ddb290> (a java.io.InputStreamReader)
+	at java.io.InputStreamReader.read(java.base@17.0.1/InputStreamReader.java:177)
+	at java.io.BufferedReader.fill(java.base@17.0.1/BufferedReader.java:162)
+	at java.io.BufferedReader.readLine(java.base@17.0.1/BufferedReader.java:329)
+	- locked <0x0000000449ddb290> (a java.io.InputStreamReader)
+	at java.io.BufferedReader.readLine(java.base@17.0.1/BufferedReader.java:396)
+	at com.intellij.rt.execution.application.AppMainV2$1.run(AppMainV2.java:56)
+
+"Notification Thread" #23 daemon prio=9 os_prio=0 cpu=0.00ms elapsed=173.01s tid=0x000001a2f7b32cd0 nid=0x511c runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"pool-1-thread-1" #24 prio=5 os_prio=0 cpu=0.00ms elapsed=173.00s tid=0x000001a2f7b39a00 nid=0x6150 waiting for monitor entry  [0x00000080021fe000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1727)
+	- waiting to lock <0x00000004490f8890> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.getInteger(DeadlockImitationExample.java:36)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$0(DeadlockImitationExample.java:13)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$17/0x0000000800c02000.apply(Unknown Source)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1708)
+	- locked <0x0000000449ebf050> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$1(DeadlockImitationExample.java:13)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$15/0x0000000800c01200.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(java.base@17.0.1/Executors.java:539)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.1/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.1/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.1/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.1/Thread.java:833)
+
+"pool-1-thread-2" #25 prio=5 os_prio=0 cpu=0.00ms elapsed=173.00s tid=0x000001a2f8539900 nid=0x3f7c waiting for monitor entry  [0x00000080022fe000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1727)
+	- waiting to lock <0x0000000449ebf050> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.getInteger(DeadlockImitationExample.java:36)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$2(DeadlockImitationExample.java:17)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$18/0x0000000800c02240.apply(Unknown Source)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1708)
+	- locked <0x00000004490f8890> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$3(DeadlockImitationExample.java:17)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$16/0x0000000800c01420.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(java.base@17.0.1/Executors.java:539)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.1/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.1/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.1/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.1/Thread.java:833)
+
+"VM Thread" os_prio=2 cpu=0.00ms elapsed=173.08s tid=0x000001a2f7825450 nid=0x57fc runnable  
+
+"GC Thread#0" os_prio=2 cpu=0.00ms elapsed=173.09s tid=0x000001a2d77b89e0 nid=0x489c runnable  
+
+"G1 Main Marker" os_prio=2 cpu=0.00ms elapsed=173.09s tid=0x000001a2d77c95e0 nid=0x1034 runnable  
+
+"G1 Conc#0" os_prio=2 cpu=0.00ms elapsed=173.09s tid=0x000001a2d77c9e00 nid=0x5f6c runnable  
+
+"G1 Refine#0" os_prio=2 cpu=0.00ms elapsed=173.09s tid=0x000001a2d77cec10 nid=0x56f8 runnable  
+
+"G1 Service" os_prio=2 cpu=0.00ms elapsed=173.09s tid=0x000001a2f6a22570 nid=0x34f4 runnable  
+
+"VM Periodic Task Thread" os_prio=2 cpu=0.00ms elapsed=173.01s tid=0x000001a2f7b37290 nid=0x5fe4 waiting on condition  
+
+JNI global refs: 23, weak refs: 0
+
+
+Found one Java-level deadlock:
+=============================
+"pool-1-thread-1":
+  waiting to lock monitor 0x000001a2f8659d30 (object 0x00000004490f8890, a java.util.concurrent.ConcurrentHashMap$ReservationNode),
+  which is held by "pool-1-thread-2"
+
+"pool-1-thread-2":
+  waiting to lock monitor 0x000001a2f865a6d0 (object 0x0000000449ebf050, a java.util.concurrent.ConcurrentHashMap$ReservationNode),
+  which is held by "pool-1-thread-1"
+
+Java stack information for the threads listed above:
+===================================================
+"pool-1-thread-1":
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1727)
+	- waiting to lock <0x00000004490f8890> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.getInteger(DeadlockImitationExample.java:36)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$0(DeadlockImitationExample.java:13)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$17/0x0000000800c02000.apply(Unknown Source)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1708)
+	- locked <0x0000000449ebf050> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$1(DeadlockImitationExample.java:13)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$15/0x0000000800c01200.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(java.base@17.0.1/Executors.java:539)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.1/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.1/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.1/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.1/Thread.java:833)
+"pool-1-thread-2":
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1727)
+	- waiting to lock <0x0000000449ebf050> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.getInteger(DeadlockImitationExample.java:36)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$2(DeadlockImitationExample.java:17)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$18/0x0000000800c02240.apply(Unknown Source)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(java.base@17.0.1/ConcurrentHashMap.java:1708)
+	- locked <0x00000004490f8890> (a java.util.concurrent.ConcurrentHashMap$ReservationNode)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample.lambda$main$3(DeadlockImitationExample.java:17)
+	at course.concurrency.m3_shared.lesson34.DeadlockImitationExample$$Lambda$16/0x0000000800c01420.run(Unknown Source)
+	at java.util.concurrent.Executors$RunnableAdapter.call(java.base@17.0.1/Executors.java:539)
+	at java.util.concurrent.FutureTask.run(java.base@17.0.1/FutureTask.java:264)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@17.0.1/ThreadPoolExecutor.java:1136)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@17.0.1/ThreadPoolExecutor.java:635)
+	at java.lang.Thread.run(java.base@17.0.1/Thread.java:833)
+
+Found 1 deadlock.
+
