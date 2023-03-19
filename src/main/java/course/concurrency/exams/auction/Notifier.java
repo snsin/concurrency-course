@@ -1,11 +1,15 @@
 package course.concurrency.exams.auction;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Notifier {
 
+
+    ExecutorService threadPool = Executors.newFixedThreadPool(120);
+
     public void sendOutdatedMessage(Bid bid) {
-        CompletableFuture.runAsync(this::imitateSending);
+        threadPool.submit(this::imitateSending);
     }
 
     private void imitateSending() {
@@ -16,5 +20,7 @@ public class Notifier {
         }
     }
 
-    public void shutdown() {}
+    public void shutdown() {
+        threadPool.shutdown();
+    }
 }
