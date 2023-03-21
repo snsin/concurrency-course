@@ -14,16 +14,16 @@ public class AuctionStoppablePessimistic implements AuctionStoppable {
     private final Object monitor = new Object();
 
     public boolean propose(Bid bid) {
-        if (isStopped) {
+        if (isStopped || bid.getPrice() <= latestBid.getPrice()) {
             return false;
         }
         synchronized (monitor) {
-            if (!isStopped && bid.getPrice() > latestBid.getPrice()) {
-                notifier.sendOutdatedMessage(latestBid);
-                latestBid = bid;
-                return true;
+            if (isStopped || bid.getPrice() <= latestBid.getPrice()) {
+                return false;
             }
-            return false;
+            notifier.sendOutdatedMessage(latestBid);
+            latestBid = bid;
+            return true;
         }
     }
 
@@ -32,8 +32,13 @@ public class AuctionStoppablePessimistic implements AuctionStoppable {
     }
 
     public Bid stopAuction() {
-        synchronized (monitor) {
-            this.isStopped = true;
+        if (!this.isStopped) {
+            synchronized (monitor) {
+                if (this.isStopped) {
+                    return latestBid;
+                }
+                this.isStopped = true;
+            }
         }
         return latestBid;
     }
