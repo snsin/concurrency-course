@@ -56,3 +56,25 @@
 15. результаты
     - optimistic: 2705 (2043-3434)
     - pessimistic: 2826 (2039-3933)
+
+> По оптимистик - сейчас есть вариант, что ставка обновится после вызова stop
+
+Я пока нашел только одно место, которое может привести к обновлению ставки после вызова stop
+
+```java
+public class AuctionStoppableOptimistic {
+    public Bid stopAuction() {
+        if (latestBid.isMarked()) {
+            return latestBid.getReference();
+        }
+        Bid finalBid;
+        do {
+            finalBid = latestBid.getReference();
+            // если в этот момент в другом потоке выполнится 
+            // latestBid.compareAndSet(outdatedBidCandidate, bid, false, false)
+        } while (!latestBid.attemptMark(finalBid, true));
+        return finalBid;
+    }
+}
+```
+Поэтому изменил код - вместо `do {...} while` сделал просто `latestBid.set(...)`
