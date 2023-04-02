@@ -44,3 +44,30 @@
      `private final Object mutex = new Object();` и использовать его для синхронизации. Еще лучше - скрыть детали
      реализации, а конкретно синхронизацию, от пользователя, но здесь я не знаю возможно ли это без слишком затратных
      доработок и мне сложно предложить конкретный способ.
+
+> Здесь тоже всё ок, но обращу твоё внимание, что в disposableBeans сейчас используются только ключи.
+> По сути мы просто запоминаем порядок добавления бинов. Какая структура данных может тоже решить эту задачу?
+> И получится ли с ней избавиться от текущих блоков synchronized?
+
+По поводу того, что в disposableBeans используются только ключи - не соглашусь. 
+В методе `org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.destroySingleton`
+в строке [557](https://github.com/spring-projects/spring-framework/blob/b595dc1dfad9db534ca7b9e8f46bb9926b88ab5a/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java#L557)
+`disposableBean = (DisposableBean) this.disposableBeans.remove(beanName);` удаляется бин
+из мапы, но при этом его значение возвращается и используется далее в методе `destroyBean(beanName, disposableBean)`
+и в этом методе вызывается метод `bean.destroy()` при условии, что `bean != null`. Не уверен, что если `bean` будет
+`null` всегда, т.е. мы просто никогда не будем вызывать `destroy()`, то это никак не отразится на работе,
+ну а точнее на завершении, приложения.
+
+Если же принять, что нужны только имена бинов, то пожалуй можно использовать структуру 
+`CopyOnWriteArrayList<String> disposableBeanNameList` при этом в коде `DefaultSingletonBeanRegistry` от `synchronized`
+получится избавиться в методах `registerDisposableBean(/*...*/)` и `destroySingleton(/*...*/)`, но по сути внутри
+структуры `CopyOnWriteArrayList` всё-равно используются `synchronized`. В методе `destroySingletons` можно будет
+вместо строк 515 - 518 сделать  `String[] disposableBeanNames = disposableBeanNameList.toArray(new String[0])`,
+но с небольшим эффектом: в текущей реализации во время копирования ключей `disposableBeans` в массив,
+в `disposableBeans` нельзя добавить новые элементы, а в случае предложенного решения - будет можно.
+Насколько это критично сказать сложно, но соображения есть следующие - в текущей реализации в строках 519 - 521
+происходит обход массива, начиная с последнего элемента и уничтожение синглтона по имени. В это время в
+`disposableBeans` также можно добавить новые значения, поэтому с точки зрения критичности, на мой взгляд,
+текущий вариант и предложенный - приблизительно равнозначны.
+
+Ссылка [DefaultSingletonBeanRegistry:515](https://github.com/spring-projects/spring-framework/blob/b595dc1dfad9db534ca7b9e8f46bb9926b88ab5a/spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java#L515)
