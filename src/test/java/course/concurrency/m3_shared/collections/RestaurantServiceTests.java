@@ -23,13 +23,13 @@ public class RestaurantServiceTests {
     private static final int poolSize = Runtime.getRuntime().availableProcessors()*2;
 
     private ExecutorService executor;
-    private RestaurantServiceInterface service;
+    private RestaurantService service;
 
     @BeforeEach
     public void setup() {
         executor = Executors.newFixedThreadPool(poolSize);
-//        service = new RestaurantService();
-        service = new RestaurantServiceAlt();
+        service = new RestaurantServiceLongAdder();
+//        service = new RestaurantServiceLong();
     }
 
     @AfterAll
