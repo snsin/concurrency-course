@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RestaurantServiceAlt implements RestaurantServiceInterface {
+public class RestaurantServiceLong implements RestaurantService {
 
     private final Map<String, Restaurant> restaurantMap = new ConcurrentHashMap<>() {{
         put("A", new Restaurant("A"));
