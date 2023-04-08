@@ -13,7 +13,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MutationExample {
     public static void main(String[] args) {
-        MergedAnnotations ma = MergedAnnotations.of(List.of());
+        int threadsCount = 16;
+        ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
+
         AnnotationMetadata simpleAnnotationMetadata = new SimpleAnnotationMetadata("classA",
                 1,
                 "classEnclosing",
@@ -22,14 +24,11 @@ public class MutationExample {
                 new String[0],
                 new String[0],
                 new MethodMetadata[0],
-                ma);
-        int threadsCount = 16;
-        ExecutorService executorService = Executors.newFixedThreadPool(threadsCount);
+                MergedAnnotations.of(List.of()));
+
         CountDownLatch countDownLatch = new CountDownLatch(1);
-
         @SuppressWarnings("unchecked")
-        Set<String>[] annotationTypesLinkArray = new Set[threadsCount];
-
+        Set<String>[] annotationTypesRefs = new Set[threadsCount];
         for (int i = 0; i < threadsCount; i++) {
             final int indexCopy = i;
             executorService.submit(() -> {
@@ -39,9 +38,10 @@ public class MutationExample {
                     throw new RuntimeException(e);
                 }
                 Set<String> aTypes = simpleAnnotationMetadata.getAnnotationTypes();
-                annotationTypesLinkArray[indexCopy] = aTypes;
+                annotationTypesRefs[indexCopy] = aTypes;
             });
         }
+
         countDownLatch.countDown();
         executorService.shutdown();
         try {
@@ -49,11 +49,22 @@ public class MutationExample {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
         for (int i = 1; i < threadsCount; i++) {
-            if (annotationTypesLinkArray[i - 1] != annotationTypesLinkArray[i]) {
+            if (annotationTypesRefs[i - 1] != annotationTypesRefs[i]) {
                 System.out.printf("%4d: %12d != %d\n", i,
-                        System.identityHashCode(annotationTypesLinkArray[i - 1]),
-                        System.identityHashCode(annotationTypesLinkArray[i]));
+                        System.identityHashCode(annotationTypesRefs[i - 1]),
+                        System.identityHashCode(annotationTypesRefs[i]));
+            }
+        }
+
+        Set<String> lastWrittenRef = simpleAnnotationMetadata.getAnnotationTypes();
+        for (int i = 0; i < threadsCount; i++) {
+            if (lastWrittenRef == annotationTypesRefs[i]) {
+                System.out.println();
+                System.out.printf("last reference index %4d: @%d\n", i,
+                        System.identityHashCode(lastWrittenRef));
+                break;
             }
         }
     }
