@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.concurrent.*;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderServiceTests {
 
@@ -94,5 +93,14 @@ public class OrderServiceTests {
             boolean isDelivered = service.isDelivered(orderId);
             assertTrue(isDelivered, String.format("Order %d is not completed", orderId));
         } while (!orderIdLog.isEmpty());
+    }
+
+    @Test
+    public void shouldFillAllFields() {
+        long orderId = service.createOrder(List.of(new Item()));
+        Order order = service.findOrderById(orderId);
+        assertFalse(order.getItems().isEmpty());
+        assertNull(order.getPaymentInfo());
+        assertFalse(order.isPacked());
     }
 }
