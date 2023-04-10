@@ -16,7 +16,7 @@ public class OrderService {
 
     public long createOrder(List<Item> items) {
         long id = nextId();
-        Order order = currentOrders.computeIfAbsent(id, key -> new Order(key, items));
+        Order order = currentOrders.computeIfAbsent(id, key -> new RegularOrder(key, items));
         return order.getId();
     }
 
@@ -30,7 +30,7 @@ public class OrderService {
 
     public void setPacked(long orderId) {
         Order packedOrder = currentOrders.merge(orderId, Order.INVALID_ORDER,
-                (old, initial) -> old.pack());
+                (old, initial) -> old.packed());
         if (packedOrder.checkStatus()) {
             deliver(packedOrder);
         }
@@ -38,7 +38,7 @@ public class OrderService {
 
     private void deliver(Order order) {
         /* ... */
-        currentOrders.computeIfPresent(order.getId(), (key, old) -> old.deliver());
+        currentOrders.computeIfPresent(order.getId(), (key, old) -> old.delivered());
     }
 
     public boolean isDelivered(long orderId) {
