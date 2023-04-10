@@ -3,6 +3,7 @@ package course.concurrency.m3_shared.immutable;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -102,5 +103,17 @@ public class OrderServiceTests {
         assertFalse(order.getItems().isEmpty());
         assertNull(order.getPaymentInfo());
         assertFalse(order.isPacked());
+    }
+
+    @Test
+    public void changeItemsOutsideShouldNotBePossible() {
+        ArrayList<Item> mutableItems = new ArrayList<>() {{
+            add(new Item());
+        }};
+        long orderId = service.createOrder(mutableItems);
+        mutableItems.add(new Item());
+        Order orderById = service.findOrderById(orderId);
+        assertEquals(1, orderById.getItems().size());
+        assertThrows(UnsupportedOperationException.class, () -> orderById.getItems().add(new Item()));
     }
 }
