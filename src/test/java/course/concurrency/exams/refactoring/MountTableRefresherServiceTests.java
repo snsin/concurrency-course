@@ -24,8 +24,9 @@ public class MountTableRefresherServiceTests {
         service = new MountTableRefresherService();
         service.setCacheUpdateTimeout(1000);
         routerStore = mock(Others.RouterStore.class);
-        manager = mock(Others.MountTableManager.class);
         service.setRouterStore(routerStore);
+        manager = mock(Others.MountTableManager.class);
+        service.setManager(manager);
         routerClientsCache = mock(Others.LoadingCache.class);
         service.setRouterClientsCache(routerClientsCache);
         // service.serviceInit(); // needed for complex class testing, not for now

@@ -17,6 +17,8 @@ public class MountTableRefresherService {
      */
     private Others.LoadingCache<String, Others.RouterClient> routerClientsCache;
 
+    private Others.MountTableManager manager;
+
     /**
      * Removes expired RouterClient from routerClientsCache.
      */
@@ -81,7 +83,7 @@ public class MountTableRefresherService {
                 refreshThreads.add(getLocalRefresher(adminAddress));
             } else {
                 refreshThreads.add(new MountTableRefresherThread(
-                        new Others.MountTableManager(adminAddress), adminAddress));
+                        manager, adminAddress));
             }
         }
         if (!refreshThreads.isEmpty()) {
@@ -90,7 +92,7 @@ public class MountTableRefresherService {
     }
 
     protected MountTableRefresherThread getLocalRefresher(String adminAddress) {
-        return new MountTableRefresherThread(new Others.MountTableManager("local"), adminAddress);
+        return new MountTableRefresherThread(manager, adminAddress);
     }
 
     private void removeFromCache(String adminAddress) {
@@ -155,5 +157,9 @@ public class MountTableRefresherService {
 
     public void setRouterStore(Others.RouterStore routerStore) {
         this.routerStore = routerStore;
+    }
+
+    public void setManager(Others.MountTableManager manager) {
+        this.manager = manager;
     }
 }
