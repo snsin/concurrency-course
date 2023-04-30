@@ -4,7 +4,7 @@ import java.util.concurrent.CountDownLatch;
 
 import static course.concurrency.exams.refactoring.Others.MountTableManager;
 
-public class MountTableRefresherThread extends Thread {
+public class MountTableRefresherThread implements Runnable {
 
     private boolean success;
     /**
@@ -18,8 +18,6 @@ public class MountTableRefresherThread extends Thread {
                                      String adminAddress) {
         this.manager = manager;
         this.adminAddress = adminAddress;
-        setName("MountTableRefresh_" + adminAddress);
-        setDaemon(true);
     }
 
     /**
@@ -36,11 +34,7 @@ public class MountTableRefresherThread extends Thread {
      */
     @Override
     public void run() {
-        try {
-            success = manager.refresh();
-        } finally {
-            countDownLatch.countDown();
-        }
+        success = manager.refresh();
     }
 
     /**
