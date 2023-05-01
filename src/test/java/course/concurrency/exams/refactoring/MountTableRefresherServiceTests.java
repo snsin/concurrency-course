@@ -8,6 +8,9 @@ import org.mockito.Mockito;
 import org.mockito.internal.stubbing.answers.AnswersWithDelay;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.stream.Collectors.toList;
 import static org.mockito.Mockito.*;
@@ -174,6 +177,39 @@ public class MountTableRefresherServiceTests {
                 .map(Others.RouterState::getAdminAddress)
                 .collect(toList());
         verify(routerClientsCache).invalidate(argThat(adminAddresses::contains));
+    }
+
+    @Test
+    @DisplayName("One tasks throws InterruptedException")
+    public void interruptedExceptionWhenExecutingTasks() {
+        // given
+        MountTableRefresherService mockedService = Mockito.spy(service);
+        List<String> addresses = List.of("0987", "localPI", "789aaa", "localTY9");
+
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        when(manager.refresh()).thenReturn(true)
+                .thenReturn(false)
+                .thenReturn(true)
+                .thenAnswer(invocation -> {
+                    Thread threadToInterrupt = Thread.currentThread();
+                    scheduledExecutorService.schedule(threadToInterrupt::interrupt, 100, TimeUnit.MILLISECONDS);
+                    Thread.sleep(10000);
+                    return true;
+                });
+
+        List<Others.RouterState> states = addresses.stream()
+                .map(Others.RouterState::new).collect(toList());
+        when(routerStore.getCachedRecords()).thenReturn(states);
+        // smth more
+
+        // when
+        mockedService.refresh();
+
+        // then
+        verify(mockedService).log("Mount table cache refresher was interrupted.");
+        verify(mockedService).log("Mount table entries cache refresh successCount=2,failureCount=2");
+        verify(routerClientsCache, times(2)).invalidate(anyString());
     }
 
 }

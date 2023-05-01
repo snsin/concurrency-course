@@ -1,10 +1,10 @@
 package course.concurrency.exams.refactoring;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class MountTableRefresherService {
@@ -69,19 +69,16 @@ public class MountTableRefresherService {
      */
     public void refresh() {
 
-        CompletableFuture<MountTableRefresherThread>[] refreshers = createFutures(routerStore.getCachedRecords());
+        Stream<CompletableFuture<MountTableRefresherTask>> refreshers = createFutures(routerStore.getCachedRecords());
 
-        List<MountTableRefresherThread> results = CompletableFuture.allOf(refreshers)
-                .thenApply(ignored -> Arrays.stream(refreshers)
-                        .map(CompletableFuture::join)
-                        .collect(Collectors.toList()))
-                .join();
+        List<MountTableRefresherTask> results = refreshers
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
 
         logResult(results);
     }
 
-    @SuppressWarnings("unchecked")
-    private CompletableFuture<MountTableRefresherThread>[] createFutures(List<Others.RouterState> cachedRecords) {
+    private Stream<CompletableFuture<MountTableRefresherTask>> createFutures(List<Others.RouterState> cachedRecords) {
         return cachedRecords.stream()
                 .map(Others.RouterState::getAdminAddress)
                 .filter(a -> Objects.nonNull(a) && a.length() > 0)
@@ -89,35 +86,38 @@ public class MountTableRefresherService {
                 .map(tr -> CompletableFuture
                         .supplyAsync(() -> runAndReturn(tr))
                         .orTimeout(cacheUpdateTimeout, TimeUnit.MILLISECONDS)
-                        .exceptionally(e -> logAndReturn(tr, e)))
-                .toArray(CompletableFuture[]::new);
+                        .exceptionally(e -> logAndReturn(tr, e)));
     }
 
-    private MountTableRefresherThread createMountTableRefresher(String a) {
+    private MountTableRefresherTask createMountTableRefresher(String a) {
         if (isLocalAdmin(a)) {
             return getLocalRefresher(a);
         }
-        return new MountTableRefresherThread(manager, a);
+        return new MountTableRefresherTask(manager, a);
     }
 
-    private MountTableRefresherThread runAndReturn(MountTableRefresherThread tr) {
+    private MountTableRefresherTask runAndReturn(MountTableRefresherTask tr) {
         tr.run();
         return tr;
     }
 
-    private MountTableRefresherThread logAndReturn(MountTableRefresherThread tr, Throwable e) {
+    private MountTableRefresherTask logAndReturn(MountTableRefresherTask tr, Throwable e) {
         if (e instanceof TimeoutException) {
             log("Not all router admins updated their cache");
-        } else {
-            System.err.printf("Exception when refreshing MountTableRefresh_%s %s\n",
-                    tr.getAdminAddress(),
-                    e.getMessage());
+            return tr;
         }
+        if (e.getCause() instanceof InterruptedException) {
+            log("Mount table cache refresher was interrupted.");
+            return tr;
+        }
+        System.err.printf("Exception when refreshing MountTableRefresh_%s %s\n",
+                tr.getAdminAddress(),
+                e.getMessage());
         return tr;
     }
 
-    protected MountTableRefresherThread getLocalRefresher(String adminAddress) {
-        return new MountTableRefresherThread(manager, adminAddress);
+    protected MountTableRefresherTask getLocalRefresher(String adminAddress) {
+        return new MountTableRefresherTask(manager, adminAddress);
     }
 
     private void removeFromCache(String adminAddress) {
@@ -129,10 +129,10 @@ public class MountTableRefresherService {
         return adminAddress.contains("local");
     }
 
-    private void logResult(List<MountTableRefresherThread> refreshThreads) {
+    private void logResult(List<MountTableRefresherTask> refreshThreads) {
         int successCount = 0;
         int failureCount = 0;
-        for (MountTableRefresherThread mountTableRefreshThread : refreshThreads) {
+        for (MountTableRefresherTask mountTableRefreshThread : refreshThreads) {
             if (mountTableRefreshThread.isSuccess()) {
                 successCount++;
             } else {
