@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 public class MountTableRefresherService {
@@ -69,24 +68,14 @@ public class MountTableRefresherService {
      */
     public void refresh() {
 
-        Stream<CompletableFuture<MountTableRefresherTask>> refreshers = createFutures(routerStore.getCachedRecords());
-
-        List<MountTableRefresherTask> results = refreshers
-                .map(CompletableFuture::join)
-                .collect(Collectors.toList());
-
-        logResult(results);
-    }
-
-    private Stream<CompletableFuture<MountTableRefresherTask>> createFutures(List<Others.RouterState> cachedRecords) {
-        return cachedRecords.stream()
+        List<MountTableRefresherTask> refreshers = routerStore.getCachedRecords().stream()
                 .map(Others.RouterState::getAdminAddress)
                 .filter(a -> Objects.nonNull(a) && a.length() > 0)
                 .map(this::createMountTableRefresher)
-                .map(tr -> CompletableFuture
-                        .supplyAsync(() -> runAndReturn(tr))
-                        .orTimeout(cacheUpdateTimeout, TimeUnit.MILLISECONDS)
-                        .exceptionally(e -> logAndReturn(tr, e)));
+                .map(this::processRefresh)
+                .collect(Collectors.toList());
+
+        logResult(refreshers);
     }
 
     private MountTableRefresherTask createMountTableRefresher(String a) {
@@ -96,23 +85,25 @@ public class MountTableRefresherService {
         return new MountTableRefresherTask(manager, a);
     }
 
-    private MountTableRefresherTask runAndReturn(MountTableRefresherTask tr) {
-        tr.run();
+    private MountTableRefresherTask processRefresh(MountTableRefresherTask tr) {
+        try {
+            return CompletableFuture
+                    .supplyAsync(() -> runAndReturn(tr))
+                    .get(cacheUpdateTimeout, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            log("Mount table cache refresher was interrupted.");
+        } catch (ExecutionException e) {
+            System.err.printf("Exception when refreshing MountTableRefresh_%s %s\n",
+                    tr.getAdminAddress(),
+                    e.getMessage());
+        } catch (TimeoutException e) {
+            log("Not all router admins updated their cache");
+        }
         return tr;
     }
 
-    private MountTableRefresherTask logAndReturn(MountTableRefresherTask tr, Throwable e) {
-        if (e instanceof TimeoutException) {
-            log("Not all router admins updated their cache");
-            return tr;
-        }
-        if (e.getCause() instanceof InterruptedException) {
-            log("Mount table cache refresher was interrupted.");
-            return tr;
-        }
-        System.err.printf("Exception when refreshing MountTableRefresh_%s %s\n",
-                tr.getAdminAddress(),
-                e.getMessage());
+    private MountTableRefresherTask runAndReturn(MountTableRefresherTask tr) {
+        tr.run();
         return tr;
     }
 

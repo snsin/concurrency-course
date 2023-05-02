@@ -191,12 +191,7 @@ public class MountTableRefresherServiceTests {
         when(manager.refresh()).thenReturn(true)
                 .thenReturn(false)
                 .thenReturn(true)
-                .thenAnswer(invocation -> {
-                    Thread threadToInterrupt = Thread.currentThread();
-                    scheduledExecutorService.schedule(threadToInterrupt::interrupt, 100, TimeUnit.MILLISECONDS);
-                    Thread.sleep(10000);
-                    return true;
-                });
+                .thenAnswer(new AnswersWithDelay(800, invocation -> true));
 
         List<Others.RouterState> states = addresses.stream()
                 .map(Others.RouterState::new).collect(toList());
@@ -204,6 +199,7 @@ public class MountTableRefresherServiceTests {
         // smth more
 
         // when
+        scheduledExecutorService.schedule(Thread.currentThread()::interrupt, 100, TimeUnit.MILLISECONDS);
         mockedService.refresh();
 
         // then
