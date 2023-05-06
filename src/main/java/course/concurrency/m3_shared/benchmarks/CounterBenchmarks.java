@@ -19,7 +19,7 @@ import java.util.concurrent.locks.*;
 public class CounterBenchmarks {
 
     public static final int WRITERS = 1;
-    public static final int READERS = 15;
+    public static final int READERS = 47;
 
     private final AtomicLong atomicLongCounter = new AtomicLong();
     private final LongAdder longAdderCounter = new LongAdder();

@@ -256,6 +256,137 @@ CounterBenchmarks.volatile_synchronized:writeSynchronizedVolatile thrpt 5 1558,8
 
 Benchmark result is saved to benchmark-result-R15-W1.json
 
+Benchmark Mode Cnt Score Error Units
+CounterBenchmarks.AtomicLong thrpt 5 88664,920 ± 2305,921 ops/ms
+CounterBenchmarks.AtomicLong:readAtomicLong thrpt 5 5604,638 ± 2545,126 ops/ms
+CounterBenchmarks.AtomicLong:writeAtomicLong thrpt 5 83060,282 ± 560,704 ops/ms
+CounterBenchmarks.LongAdder thrpt 5 1990019,435 ± 120510,947 ops/ms
+CounterBenchmarks.LongAdder:readLongAdder thrpt 5 531,279 ± 57,964 ops/ms
+CounterBenchmarks.LongAdder:writeLongAdder thrpt 5 1989488,156 ± 120549,080 ops/ms
+CounterBenchmarks.ReadWriteLock thrpt 5 129765,410 ± 2112,249 ops/ms
+CounterBenchmarks.ReadWriteLock:readReadWriteLock thrpt 5 2,826 ± 0,039 ops/ms
+CounterBenchmarks.ReadWriteLock:writeReadWriteLock thrpt 5 129762,584 ± 2112,227 ops/ms
+CounterBenchmarks.ReadWriteLock_fair thrpt 5 157,650 ± 1,511 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:readReadWriteLockFair thrpt 5 3,284 ± 0,032 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:writeReadWriteLockFair thrpt 5 154,365 ± 1,480 ops/ms
+CounterBenchmarks.ReentrantLock thrpt 5 145711,593 ± 91,800 ops/ms
+CounterBenchmarks.ReentrantLock:readReentrantLock thrpt 5 3265,004 ± 136,776 ops/ms
+CounterBenchmarks.ReentrantLock:writeReentrantLock thrpt 5 142446,590 ± 132,804 ops/ms
+CounterBenchmarks.ReentrantLock_fair thrpt 5 157,628 ± 1,379 ops/ms
+CounterBenchmarks.ReentrantLock_fair:readReentrantLockFair thrpt 5 3,284 ± 0,029 ops/ms
+CounterBenchmarks.ReentrantLock_fair:writeReentrantLockFair thrpt 5 154,344 ± 1,350 ops/ms
+CounterBenchmarks.Semaphore thrpt 5 116296,067 ± 1494,871 ops/ms
+CounterBenchmarks.Semaphore:readSemaphore thrpt 5 2354,998 ± 33,110 ops/ms
+CounterBenchmarks.Semaphore:writeSemaphore thrpt 5 113941,069 ± 1468,746 ops/ms
+CounterBenchmarks.Semaphore_fair thrpt 5 157,739 ± 1,962 ops/ms
+CounterBenchmarks.Semaphore_fair:readSemaphoreFair thrpt 5 3,286 ± 0,041 ops/ms
+CounterBenchmarks.Semaphore_fair:writeSemaphoreFair thrpt 5 154,452 ± 1,921 ops/ms
+CounterBenchmarks.StampedLock_optimistic thrpt 5 276315,113 ± 13590,029 ops/ms
+CounterBenchmarks.StampedLock_optimistic:readStampedLockOptimistic thrpt 5 271334,815 ± 13909,794 ops/ms
+CounterBenchmarks.StampedLock_optimistic:writeStampedLockOptimistic thrpt 5 4980,298 ± 781,329 ops/ms
+CounterBenchmarks.StampedLock_readwrite thrpt 5 131441,562 ± 257,806 ops/ms
+CounterBenchmarks.StampedLock_readwrite:readStampedLockRW thrpt 5 1626,644 ± 67,357 ops/ms
+CounterBenchmarks.StampedLock_readwrite:writeStampedLockRW thrpt 5 129814,918 ± 311,135 ops/ms
+CounterBenchmarks.synchronized thrpt 5 34535,821 ± 902,545 ops/ms
+CounterBenchmarks.synchronized:readSynchronized thrpt 5 901,370 ± 29,250 ops/ms
+CounterBenchmarks.synchronized:writeSynchronized thrpt 5 33634,451 ± 882,648 ops/ms
+CounterBenchmarks.volatile thrpt 5 100191,131 ± 8003,118 ops/ms
+CounterBenchmarks.volatile:readVolatile thrpt 5 9777,805 ± 9382,801 ops/ms
+CounterBenchmarks.volatile:writeVolatile thrpt 5 90413,326 ± 1395,636 ops/ms
+CounterBenchmarks.volatile_synchronized thrpt 5 933388,611 ± 30276,773 ops/ms
+CounterBenchmarks.volatile_synchronized:readSynchronizedVolatile thrpt 5 925832,133 ± 30284,941 ops/ms
+CounterBenchmarks.volatile_synchronized:writeSynchronizedVolatile thrpt 5 7556,478 ± 268,329 ops/ms
+
+Benchmark result is saved to benchmark-result-R1-W47.json
+
+Benchmark Mode Cnt Score Error Units
+CounterBenchmarks.AtomicLong thrpt 5 325578,599 ± 58108,964 ops/ms
+CounterBenchmarks.AtomicLong:readAtomicLong thrpt 5 282044,655 ± 58921,872 ops/ms
+CounterBenchmarks.AtomicLong:writeAtomicLong thrpt 5 43533,944 ± 1668,419 ops/ms
+CounterBenchmarks.LongAdder thrpt 5 102684,337 ± 7481,857 ops/ms
+CounterBenchmarks.LongAdder:readLongAdder thrpt 5 19405,621 ± 2283,531 ops/ms
+CounterBenchmarks.LongAdder:writeLongAdder thrpt 5 83278,716 ± 7544,309 ops/ms
+CounterBenchmarks.ReadWriteLock thrpt 5 58340,187 ± 51786,373 ops/ms
+CounterBenchmarks.ReadWriteLock:readReadWriteLock thrpt 5 5893,845 ± 2902,450 ops/ms
+CounterBenchmarks.ReadWriteLock:writeReadWriteLock thrpt 5 52446,342 ± 49128,807 ops/ms
+CounterBenchmarks.ReadWriteLock_fair thrpt 5 157,215 ± 1,407 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:readReadWriteLockFair thrpt 5 78,607 ± 0,703 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:writeReadWriteLockFair thrpt 5 78,607 ± 0,703 ops/ms
+CounterBenchmarks.ReentrantLock thrpt 5 140206,279 ± 3311,151 ops/ms
+CounterBenchmarks.ReentrantLock:readReentrantLock thrpt 5 69419,247 ± 1878,718 ops/ms
+CounterBenchmarks.ReentrantLock:writeReentrantLock thrpt 5 70787,033 ± 1495,513 ops/ms
+CounterBenchmarks.ReentrantLock_fair thrpt 5 157,000 ± 0,764 ops/ms
+CounterBenchmarks.ReentrantLock_fair:readReentrantLockFair thrpt 5 78,500 ± 0,382 ops/ms
+CounterBenchmarks.ReentrantLock_fair:writeReentrantLockFair thrpt 5 78,500 ± 0,382 ops/ms
+CounterBenchmarks.Semaphore thrpt 5 116756,834 ± 1369,729 ops/ms
+CounterBenchmarks.Semaphore:readSemaphore thrpt 5 58397,056 ± 716,236 ops/ms
+CounterBenchmarks.Semaphore:writeSemaphore thrpt 5 58359,778 ± 663,097 ops/ms
+CounterBenchmarks.Semaphore_fair thrpt 5 157,145 ± 1,027 ops/ms
+CounterBenchmarks.Semaphore_fair:readSemaphoreFair thrpt 5 78,573 ± 0,513 ops/ms
+CounterBenchmarks.Semaphore_fair:writeSemaphoreFair thrpt 5 78,573 ± 0,513 ops/ms
+CounterBenchmarks.StampedLock_optimistic thrpt 5 1608681,705 ± 3432175,489 ops/ms
+CounterBenchmarks.StampedLock_optimistic:readStampedLockOptimistic thrpt 5 1607651,735 ± 3429995,534 ops/ms
+CounterBenchmarks.StampedLock_optimistic:writeStampedLockOptimistic thrpt 5 1029,969 ± 2185,440 ops/ms
+CounterBenchmarks.StampedLock_readwrite thrpt 5 116923,174 ± 2937,541 ops/ms
+CounterBenchmarks.StampedLock_readwrite:readStampedLockRW thrpt 5 28094,899 ± 939,183 ops/ms
+CounterBenchmarks.StampedLock_readwrite:writeStampedLockRW thrpt 5 88828,275 ± 2374,091 ops/ms
+CounterBenchmarks.synchronized thrpt 5 42675,581 ± 276,832 ops/ms
+CounterBenchmarks.synchronized:readSynchronized thrpt 5 21601,283 ± 125,453 ops/ms
+CounterBenchmarks.synchronized:writeSynchronized thrpt 5 21074,298 ± 171,375 ops/ms
+CounterBenchmarks.volatile thrpt 5 484254,576 ± 946410,811 ops/ms
+CounterBenchmarks.volatile:readVolatile thrpt 5 445916,473 ± 871339,306 ops/ms
+CounterBenchmarks.volatile:writeVolatile thrpt 5 38338,103 ± 75337,188 ops/ms
+CounterBenchmarks.volatile_synchronized thrpt 5 8030257,243 ± 646735,004 ops/ms
+CounterBenchmarks.volatile_synchronized:readSynchronizedVolatile thrpt 5 8026935,898 ± 647024,456 ops/ms
+CounterBenchmarks.volatile_synchronized:writeSynchronizedVolatile thrpt 5 3321,346 ± 292,695 ops/ms
+
+Benchmark result is saved to benchmark-result-R24-W24.json
+
+Benchmark Mode Cnt Score Error Units
+CounterBenchmarks.AtomicLong thrpt 5 9266109,635 ± 788132,168 ops/ms
+CounterBenchmarks.AtomicLong:readAtomicLong thrpt 5 9263927,832 ± 789015,256 ops/ms
+CounterBenchmarks.AtomicLong:writeAtomicLong thrpt 5 2181,803 ± 889,219 ops/ms
+CounterBenchmarks.LongAdder thrpt 5 6028387,463 ± 399962,327 ops/ms
+CounterBenchmarks.LongAdder:readLongAdder thrpt 5 6027187,143 ± 400326,388 ops/ms
+CounterBenchmarks.LongAdder:writeLongAdder thrpt 5 1200,320 ± 553,850 ops/ms
+CounterBenchmarks.ReadWriteLock thrpt 5 4788,097 ± 32,263 ops/ms
+CounterBenchmarks.ReadWriteLock:readReadWriteLock thrpt 5 4777,738 ± 38,324 ops/ms
+CounterBenchmarks.ReadWriteLock:writeReadWriteLock thrpt 5 10,359 ± 18,590 ops/ms
+CounterBenchmarks.ReadWriteLock_fair thrpt 5 154,837 ± 2,859 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:readReadWriteLockFair thrpt 5 151,612 ± 2,799 ops/ms
+CounterBenchmarks.ReadWriteLock_fair:writeReadWriteLockFair thrpt 5 3,226 ± 0,060 ops/ms
+CounterBenchmarks.ReentrantLock thrpt 5 133962,411 ± 926,865 ops/ms
+CounterBenchmarks.ReentrantLock:readReentrantLock thrpt 5 131043,942 ± 814,201 ops/ms
+CounterBenchmarks.ReentrantLock:writeReentrantLock thrpt 5 2918,469 ± 165,379 ops/ms
+CounterBenchmarks.ReentrantLock_fair thrpt 5 156,626 ± 1,685 ops/ms
+CounterBenchmarks.ReentrantLock_fair:readReentrantLockFair thrpt 5 153,363 ± 1,649 ops/ms
+CounterBenchmarks.ReentrantLock_fair:writeReentrantLockFair thrpt 5 3,263 ± 0,035 ops/ms
+CounterBenchmarks.Semaphore thrpt 5 113758,596 ± 3465,707 ops/ms
+CounterBenchmarks.Semaphore:readSemaphore thrpt 5 111325,785 ± 3392,304 ops/ms
+CounterBenchmarks.Semaphore:writeSemaphore thrpt 5 2432,811 ± 75,869 ops/ms
+CounterBenchmarks.Semaphore_fair thrpt 5 157,518 ± 2,007 ops/ms
+CounterBenchmarks.Semaphore_fair:readSemaphoreFair thrpt 5 154,236 ± 1,965 ops/ms
+CounterBenchmarks.Semaphore_fair:writeSemaphoreFair thrpt 5 3,282 ± 0,042 ops/ms
+CounterBenchmarks.StampedLock_optimistic thrpt 5 1688956,966 ± 887848,065 ops/ms
+CounterBenchmarks.StampedLock_optimistic:readStampedLockOptimistic thrpt 5 1688471,860 ± 887891,135 ops/ms
+CounterBenchmarks.StampedLock_optimistic:writeStampedLockOptimistic thrpt 5 485,106 ± 105,320 ops/ms
+CounterBenchmarks.StampedLock_readwrite thrpt 5 26578,875 ± 4108,902 ops/ms
+CounterBenchmarks.StampedLock_readwrite:readStampedLockRW thrpt 5 15649,120 ± 4062,658 ops/ms
+CounterBenchmarks.StampedLock_readwrite:writeStampedLockRW thrpt 5 10929,755 ± 255,681 ops/ms
+CounterBenchmarks.synchronized thrpt 5 40129,843 ± 1355,962 ops/ms
+CounterBenchmarks.synchronized:readSynchronized thrpt 5 39513,632 ± 1353,015 ops/ms
+CounterBenchmarks.synchronized:writeSynchronized thrpt 5 616,210 ± 21,501 ops/ms
+CounterBenchmarks.volatile thrpt 5 10031249,682 ± 777451,451 ops/ms
+CounterBenchmarks.volatile:readVolatile thrpt 5 10029175,525 ± 778323,555 ops/ms
+CounterBenchmarks.volatile:writeVolatile thrpt 5 2074,157 ± 908,495 ops/ms
+CounterBenchmarks.volatile_synchronized thrpt 5 10061302,410 ± 356153,875 ops/ms
+CounterBenchmarks.volatile_synchronized:readSynchronizedVolatile thrpt 5 10060409,828 ± 356335,240 ops/ms
+CounterBenchmarks.volatile_synchronized:writeSynchronizedVolatile thrpt 5 892,582 ± 188,470 ops/ms
+
+Benchmark result is saved to benchmark-result-R47-W1.json
+
+
+
 
 
 
