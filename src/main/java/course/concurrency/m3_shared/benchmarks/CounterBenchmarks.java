@@ -1,6 +1,7 @@
 package course.concurrency.m3_shared.benchmarks;
 
 import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
@@ -17,8 +18,8 @@ import java.util.concurrent.locks.*;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 public class CounterBenchmarks {
 
-    public static final int WRITERS = 7;
-    public static final int READERS = 1;
+    public static final int WRITERS = 1;
+    public static final int READERS = 7;
 
     private final AtomicLong atomicLongCounter = new AtomicLong();
     private final LongAdder longAdderCounter = new LongAdder();
@@ -46,11 +47,12 @@ public class CounterBenchmarks {
     }
 
     public static void main(String[] args) throws RunnerException {
+        String fileName = String.format("benchmark-result-R%d-W%d.json", READERS, WRITERS);
         Options options = new OptionsBuilder()
                 .include(CounterBenchmarks.class.getName())
                 .forks(1)
-//                .resultFormat(ResultFormatType.JSON)
-//                .result("benchmark-result.json")
+                .resultFormat(ResultFormatType.JSON)
+                .result(fileName)
                 .build();
 
         new Runner(options).run();
